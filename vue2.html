@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <meta charset="utf-8">
+    <title>Vue Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    </head>
+    <body>
+            <div id="app" class="container">
+                <h1>Metodos y eventos</h1>
+                <ul>    
+                    <li v-for="(task,index) in tasks">{{index+1}}: {{task}}</li>        
+                </ul>
+                <hr>
+                <h1>sin form</h1>
+                <input v-model="new_task" type="text" class="form-control" v-on:keyup.enter="createTask">
+                <button  v-on:click="createTask" class="btn btn-primary">Crear Tarea</button>
+                <button  v-on:click="createTask" class="btn btn-primary">Crear Tarea</button>
+                <hr>
+                <hr>
+                <h1>con form</h1>
+                <form @submit="createTask">
+                    <input v-model="new_task" type="text" class="form-control" >
+                    <button class="btn btn-primary">Crear Tarea</button>
+                </form>
+                    
+                <hr>
+                <template v-for="(tarea,indice) in tasksNew">  
+                    <del v-if="!tarea.pending">{{indice + 1}}: {{tarea.task}}</del>
+                    <template v-else>{{indice + 1}}: {{tarea.task}}</template>                
+                        <hr>
+                </template>
+                    <hr>
+                <template v-for="(value,key,indice) in user">  
+                    <p>{{indice}}:{{key}}:{{value}}</p>     
+                    <hr>
+                </template>
+                <h1>tachar con click</h1>
+                 <template v-for="(tarea,indice) in tasksNew">  
+                   
+                    <p :style="(!tarea.pending)?'text-decoration:line-through':''"
+                        v-on:click="cambiarEstado(indice)">
+                        {{indice + 1}}: {{tarea.task}}
+                    </p>                
+                    
+                   
+                    
+                    <hr>
+                </template>        
+            </div>
+                <footer class="footer">
+                    <p>pruebas</p>
+                </footer>    
+            </div>
+            
+    </body>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                new_task:'',
+                tasks:[
+                    'aprender Vue.js',
+                    'inscribirse en sttyde',
+                    'seguir a Styude en twitrer',
+                ],
+                tasksNew:[
+                    {
+                        task:'aprender Vue.js',
+                        pending: false
+                    },
+                    {
+                        task:'inscribirse en sttyde',
+                        pending: true,
+                    },
+                    {
+                        task:'seguir a Styude en twitrer',
+                        pending: true,
+                    }
+                ],
+                user:{
+                    'first Name':'Gabriel',
+                    'last Name':'Chavez',
+                    userName:'Lito',
+                }
+            },
+            computed:{
+                
+            },
+            methods:{
+                createTask: function(event){
+                    event.preventDefault();
+                    this.tasksNew.push({
+                        task:this.new_task,
+                        pending:false
+                    })
+                    this.new_task='';
+                },
+                 cambiarEstado:function(index){
+                    
+                    this.tasksNew[index].pending=!this.tasksNew[index].pending;
+                }
+               
+            }
+        })
+    </script>
+</html>

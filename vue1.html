@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <meta charset="utf-8">
+    <title>Vue Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container" id="app">
+            <h1>Listado con v-for, estilos y clases con v-bind<h1>
+            {{$data}}
+            <h4> Has trabajado con vue</h4>
+           <div class="radio">
+                <label for="" class="radio-inline">
+                    <input v-model="vue.exp" type="radio" :value="true"> Si 
+                </label>
+                <label for="" class="radio-inline"> 
+                    <input v-model="vue.exp" type="radio" v-bind:value="false"> No
+               </label>               
+           </div>
+            <template v-if="vue.exp">
+                <div class="form-group">
+                    <label for="vue_years">cuantos años de experiencia</label>
+                    <input type="number" v-model="vue.years" class="form-control">
+                </div>
+                <div v-if="vue.years<2" 
+                    class="form-group"
+                    :class="{'has-error':descriptionError!=null}">
+                    <label for="">que te motivo</label>
+                    <textarea name="" id="" cols="30" rows="10" class="form-control" v-model="vue.description"></textarea>
+                    
+                    <label v-if="descriptionError != ''" for="" class="help-block">{{descriptionError}}</label>
+                    
+                    
+                </div>
+                <div  v-else class="form-group">
+                    <label for="">Cuentanos tu experiencia</label>
+                    <textarea name="" id="" cols="30" rows="10" class="form-control" v-model="vue.description"></textarea>
+                </div>
+            </template>
+            
+        </div>
+           
+            
+    </body>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                vue:{
+                    exp:null,
+                    years:0,
+                    description:'',
+                }                                
+            },
+            computed:{
+                descriptionError: function(){
+                    var val=this.vue.description.trim();
+                    if(val=='')
+                        return 'El campo es obligatorio';
+                    if(val.length<5)
+                        return 'es menor a 5 caracteres';
+                    if(val.length>20)
+                        return 'supero los 20 caracteres';
+                }
+            }
+        })
+    </script>
+</html>
